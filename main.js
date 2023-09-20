@@ -5,40 +5,40 @@ function creditoHipotecario(dineroHipotecario, cantidadAnios, porcenFinancia) {
     let valoresCredito = {
         dineroHipoteConInteres: "",
         valorCuota: "",
-        valoresCreditoEscrito: "",
-        pie: "",
-        valorHipotecarioEscrito: ""
+        pie: ""
     };
     const decimales = 0;
     valoresCredito.dineroHipoteConInteres = (dineroHipotecario * 1.1).toFixed(decimales);
     valoresCredito.pie = valoresCredito.dineroHipoteConInteres - (valoresCredito.dineroHipoteConInteres * (porcenFinancia / 100));
     valoresCredito.pie = valoresCredito.dineroHipoteConInteres - (valoresCredito.dineroHipoteConInteres * (porcenFinancia / 100));
     valoresCredito.valorCuota = ((valoresCredito.dineroHipoteConInteres - valoresCredito.pie) / (cantidadAnios * 12)).toFixed(decimales);
-    valoresCredito.valorHipotecarioEscrito = "EL pie necesario es: " + valoresCredito.pie + "\n" + " El valor de la cuota mensual es : " + valoresCredito.valorCuota + "\n Valor final a pagar : " + valoresCredito.dineroHipoteConInteres;
     return valoresCredito;
-}
+};
 
 function creditoConsumo(dineroSolicitar, cantidaCuotas) {
     let valoresCredito = {
         dineroSolicitarConInteres: "",
         valorCuota: "",
-        valoresCreditoEscrito: ""
     };
     const decimales = 0;
     dineroSolicitarConInteres = dineroSolicitar * 1.1;
     valoresCredito.dineroSolicitarConInteres = dineroSolicitarConInteres.toFixed(decimales);
     valorCuota = dineroSolicitarConInteres / cantidaCuotas;
     valoresCredito.valorCuota = valorCuota.toFixed(decimales);
-    valoresCredito.valoresCreditoEscrito = "El valor de la cuota mensual es : " + valoresCredito.valorCuota + "\n Valor final a pagar : " + valoresCredito.dineroSolicitarConInteres;
-
     return valoresCredito;
 };
 
+function mayorQue(n) {
+    return (m) => m >= n;
+}
+
 const simularCredito = () => {
     let personas = [];
-
+    let mayorConsumo = mayorQue(1000000);
+    let mayorHipotecario = mayorQue(1200000);
     do {
         let infoPersona = {
+            rut: "",
             nombre: "",
             correo: "",
             renta: "",
@@ -49,44 +49,43 @@ const simularCredito = () => {
             dineroHipotecario: "",
             porcenFinancia: "",
             cantidadAnios: "",
-            resulltadoConsumo: {
+            resultadoConsumo: {
                 dineroSolicitarConInteres: "",
                 valorCuota: "",
-                valoresCreditoEscrito: ""
             },
             resultadoHipotecario: {
                 dineroHipoteConInteres: "",
                 valorCuota: "",
-                valoresCreditoEscrito: "",
-                pie: "",
-                valorHipotecarioEscrito: ""
+                pie: ""
             }
         };
+        infoPersona.rut = prompt("Ingrese su rut / Dni : ")
+        rutCompara = infoPersona.rut;
         infoPersona.nombre = prompt("Ingrese su nombre :  ");
         infoPersona.correo = prompt("Ingrese su correo :  ");
         infoPersona.renta = prompt("Ingrese su renta: ");
-        infoPersona.tipoCredito = prompt("ingrese número de opción del credito : \n 1.-Consumo \n 2.-Hipotecario");
+        infoPersona.tipoCredito = prompt("ingrese número de opción del credito : \n 1.-Consumo \n 2.-Hipotecario").trim();
 
         if (infoPersona.tipoCredito == 1) {
             infoPersona.dineroSolicitar = Number(prompt("Ingrese cantidad a solicitar (hasta 5 millones : )"))
-            if (infoPersona.dineroSolicitar >= 1000000) {
+            if (mayorConsumo(infoPersona.dineroSolicitar)) {
                 infoPersona.cantidaCuotas = Number(prompt("Ingrese cantidad de cuotas (hasta 64 cuotas): "));
                 let resultado = creditoConsumo(infoPersona.dineroSolicitar, infoPersona.cantidaCuotas);
-                infoPersona.resulltadoConsumo = {
+                infoPersona.resultadoConsumo = {
                     dineroSolicitarConInteres: resultado.dineroSolicitarConInteres,
                     valorCuota: resultado.valorCuota,
-                    valoresCreditoEscrito: resultado.valoresCreditoEscrito
                 };
 
                 alert(" Estimado(a) : " + infoPersona.nombre + "\n" +
                     " Correo : " + infoPersona.correo + "\n" + " " +
-                    infoPersona.resulltadoConsumo.valoresCreditoEscrito);
-                console.log(infoPersona);
+                    "El valor de la cuota mensual es : " + infoPersona.resultadoConsumo.valorCuota + "\n Valor final a pagar : " + infoPersona.resultadoConsumo.dineroSolicitarConInteres
+                );
+
             } else {
                 alert("el mínimo a solicitar debe ser de 1000000")
             };
         } else if (infoPersona.tipoCredito == 2) {
-            if (infoPersona.renta > 1200000) {
+            if (mayorHipotecario(infoPersona.renta)) {
                 infoPersona.tipoPropiedad = prompt("Ingrese tipo de propiedad : \n 1.- Casa \n 2.- Departamento ");
                 infoPersona.dineroHipotecario = Number(prompt("Ingrese cantidad a solicitar: "));
                 infoPersona.porcenFinancia = Number(prompt("Ingrese porcentaje de financiación (Hasta el 90%)"));
@@ -96,13 +95,12 @@ const simularCredito = () => {
                 infoPersona.resultadoHipotecario = {
                     dineroHipoteConInteres: resultado2.dineroHipoteConInteres,
                     valorCuota: resultado2.valorCuota,
-                    pie: resultado2.pie,
-                    valorHipotecarioEscrito: resultado2.valorHipotecarioEscrito,
-                }
+                    pie: resultado2.pie
+                };
                 console.log(infoPersona);
                 alert(" Estimado(a) : " + infoPersona.nombre + "\n" +
                     " Correo : " + infoPersona.correo + "\n" + " " +
-                    infoPersona.resultadoHipotecario.valorHipotecarioEscrito);
+                    "EL pie necesario es: " + infoPersona.resultadoHipotecario.pie + "\n" + " El valor de la cuota mensual es : " + infoPersona.resultadoHipotecario.valorCuota + "\n Valor final a pagar : " + infoPersona.resultadoHipotecario.dineroHipoteConInteres);
             } else {
                 alert("renta debe ser mayor  a 1200000");
             };
@@ -113,28 +111,28 @@ const simularCredito = () => {
         seguirSimulando = confirm("¿Desea seguir simulando?");
     } while (seguirSimulando);
 
-    for (let i = 0; i < personas.length; i++) {
-        let persona = personas[i];
-        let numeroCuotas = persona.cantidaCuotas;
-        console.log("Información de la persona " + (i + 1) + ":");
-        console.log("Nombre: " + persona.nombre);
-        console.log("Correo: " + persona.correo);
-        console.log("Tipo de crédito: " + (persona.tipoCredito == 1 ? "Consumo" : "Hipotecario"));
-       
-        if (persona.tipoCredito == 1) {
-            for (let i = 0; i < persona.cantidaCuotas; i++) {
-                console.log("Número de cuotas y valor : ");
-                console.log("n° " + (i + 1) + ": " + persona.resulltadoConsumo.valorCuota);
-            };
+    const credito = personas.find((persona) => persona.rut === rutCompara)
 
-        } else if (persona.tipoCredito == 2) {
-            for (let i = 0; i < persona.cantidaCuotas; i++) {
-                console.log("Número de cuotas y valor : ");
-                console.log("n° " + (i + 1) + ": " + persona.resultadoHipotecario.valorCuota);
-            };
 
+    let numeroCuotas = credito.cantidaCuotas;
+    console.log("Información de la persona " + (i + 1) + ":");
+    console.log("Nombre: " + credito.nombre);
+    console.log("Correo: " + credito.correo);
+    console.log("Tipo de crédito: " + (credito.tipoCredito == 1 ? "Consumo" : "Hipotecario"));
+
+
+    if (credito.tipoCredito == 1) {
+        for (let i = 0; i < credito.cantidaCuotas; i++) {
+            console.log("Número de cuotas y valor : ");
+            console.log("n° " + (i + 1) + ": " + credito.resultadoConsumo.valorCuota);
+        };
+    } else if (credito.tipoCredito == 2) {
+        for (let i = 0; i < credito.cantidaCuotas; i++) {
+            console.log("Número de cuotas y valor : ");
+            console.log("n° " + (i + 1) + ": " + persona.resultadoHipotecario.valorCuota);
         };
     };
+
 }
 simularCredito();
 
