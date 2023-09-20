@@ -115,7 +115,7 @@ const simularCredito = () => {
 
 
     let numeroCuotas = credito.cantidaCuotas;
-    console.log("Información de la persona " + (i + 1) + ":");
+    console.log("Información del credito a solicitar: " );
     console.log("Nombre: " + credito.nombre);
     console.log("Correo: " + credito.correo);
     console.log("Tipo de crédito: " + (credito.tipoCredito == 1 ? "Consumo" : "Hipotecario"));
@@ -129,7 +129,7 @@ const simularCredito = () => {
     } else if (credito.tipoCredito == 2) {
         for (let i = 0; i < credito.cantidaCuotas; i++) {
             console.log("Número de cuotas y valor : ");
-            console.log("n° " + (i + 1) + ": " + persona.resultadoHipotecario.valorCuota);
+            console.log("n° " + (i + 1) + ": " + credito.resultadoHipotecario.valorCuota);
         };
     };
 
