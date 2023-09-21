@@ -59,10 +59,10 @@ const simularCredito = () => {
                 pie: ""
             }
         };
-        infoPersona.rut = prompt("Ingrese su rut / Dni : ")
+        infoPersona.rut = prompt("Ingrese su rut / Dni : ").trim()? prompt("Ingrese su rut / Dni : ").trim() : "N/A"  ;                                                                                                                      
         rutCompara = infoPersona.rut;
-        infoPersona.nombre = prompt("Ingrese su nombre :  ");
-        infoPersona.correo = prompt("Ingrese su correo :  ");
+        infoPersona.nombre = prompt("Ingrese su nombre :  ")? prompt("Ingrese su nombre :  ") : "N/A" ;
+        infoPersona.correo = prompt("Ingrese su correo :  ").trim()? prompt("Ingrese su correo :  ").trim() : "N/A";
         infoPersona.renta = prompt("Ingrese su renta: ");
         infoPersona.tipoCredito = prompt("ingrese número de opción del credito : \n 1.-Consumo \n 2.-Hipotecario").trim();
 
@@ -105,7 +105,7 @@ const simularCredito = () => {
                 alert("renta debe ser mayor  a 1200000");
             };
         } else {
-            alert("Ingrese una opción válida");
+            alert("Ingrese una opción válida 1 o 2.");
         };
         personas.push(infoPersona);
         seguirSimulando = confirm("¿Desea seguir simulando?");
